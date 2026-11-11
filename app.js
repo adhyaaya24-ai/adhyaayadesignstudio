@@ -23,15 +23,15 @@ $q('.tz a,.site:not(.next)').forEach(c=>{c.addEventListener('pointermove',e=>{co
 document.addEventListener('click',e=>{const b=e.target.closest('.btn');if(!b)return;const r=b.getBoundingClientRect(),s=document.createElement('span');s.className='rip';s.style.left=e.clientX-r.left+'px';s.style.top=e.clientY-r.top+'px';b.appendChild(s);setTimeout(()=>s.remove(),600)});
 })()}catch(err){console.warn(err)}
 try{const t=document.getElementById('dwTrack');if(t){let d=1,p=0,x=0;const rm=matchMedia('(prefers-reduced-motion:reduce)').matches;
-const step=()=>{const m=t.scrollWidth-t.clientWidth;if(p||rm||m<=0)x=t.scrollLeft;else{x+=d*.6;t.scrollLeft=x;if(x>=m)d=-1;else if(x<=0)d=1}requestAnimationFrame(step)};
+[...t.children].forEach(f=>t.appendChild(f.cloneNode(true)));const step=()=>{const m=t.scrollWidth-t.clientWidth;if(p||rm||m<=0)x=t.scrollLeft;else{x+=.6;if(x>=t.scrollWidth/2)x-=t.scrollWidth/2;t.scrollLeft=x}requestAnimationFrame(step)};
 ['pointerenter','touchstart','focusin'].forEach(e=>t.addEventListener(e,()=>p=1));['pointerleave','touchend','focusout'].forEach(e=>t.addEventListener(e,()=>setTimeout(()=>p=0,1500)));
 document.querySelectorAll('[data-dw]').forEach(b=>b.onclick=()=>{p=1;t.scrollBy({left:b.dataset.dw*320,behavior:'smooth'});setTimeout(()=>p=0,2500)});requestAnimationFrame(step)}}catch(e){}
 try{const I={Home:'M3 11l9-8 9 8v10H3z',Services:'M4 4h6v6H4zM14 4h6v6h-6zM4 14h6v6H4zM14 14h6v6h-6z',Work:'M3 8h18v12H3zM9 8V5h6v3',About:'M9 11a3 3 0 100-6 3 3 0 000 6zM3 20c0-3 3-5 6-5s6 2 6 5M17 11a2.5 2.5 0 100-5M17 15c3 0 4 2 4 5',Contact:'M3 5h18v14H3zM3 6l9 7 9-7'};
 document.querySelectorAll('.navlinks a,.navlinks button').forEach(a=>{const k=a.textContent.trim();if(I[k])a.insertAdjacentHTML('afterbegin','<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"><path d="'+I[k]+'"/></svg>')});
 const h=document.getElementById('top');if(h)h.insertAdjacentHTML('beforeend','<a class="hint" href="#what"><span>&darr;</span> Scroll to explore</a>')}catch(e){}
 try{const cards=[...document.querySelectorAll('.scard')],T={'Websites':['Mobile-first design','Google-friendly basics','Call & WhatsApp buttons'],'Landing Pages':['One clear offer','Fast loading','Enquiry form'],'Social Media Designs':['Posters & posts','Festival creatives','Consistent brand style'],'Reels & Content Videos':['Shoot & edit','Hooks & captions','Instagram & YouTube'],'Social Media Management':['Content calendar','Weekly posting','Monthly report']};
-if(cards.length){cards.forEach((c,i)=>{const h=c.querySelector('h2'),k=h.textContent.trim();h.insertAdjacentHTML('beforebegin','<p class="chap">Chapter 2.'+(i+1)+' \u00b7 Service</p>');c.querySelector('p:not(.chap)').insertAdjacentHTML('afterend','<div class="tags">'+(T[k]||[]).map(x=>'<span>'+x+'</span>').join('')+'</div>');c.classList.add('rv')});
-cards[0].insertAdjacentHTML('beforebegin','<aside class="sidx"><h3>Chapter 02 \u00b7 Services</h3>'+cards.map((c,i)=>'<a href="#" data-k="'+i+'">2.'+(i+1)+' '+c.querySelector('h2').textContent+'</a>').join('')+'</aside>');
+if(cards.length){cards.forEach((c,i)=>{const h=c.querySelector('h2'),k=h.textContent.trim();c.querySelector('p:not(.chap)').insertAdjacentHTML('afterend','<div class="tags">'+(T[k]||[]).map(x=>'<span>'+x+'</span>').join('')+'</div>');c.classList.add('rv')});
+cards[0].insertAdjacentHTML('beforebegin','<aside class="sidx"><h3>Chapter 02 \u00b7 Services</h3>'+cards.map((c,i)=>'<a href="#" data-k="'+i+'">'+c.querySelector('h2').textContent+'</a>').join('')+'</aside>');
 const L=[...document.querySelectorAll('.sidx a')];document.querySelector('.sidx').onclick=e=>{const a=e.target.closest('a');if(!a)return;e.preventDefault();cards[a.dataset.k].scrollIntoView({behavior:'smooth',block:'center'})};
 const o=new IntersectionObserver(es=>es.forEach(x=>{if(x.isIntersecting){x.target.classList.add('in');o.unobserve(x.target)}}),{threshold:.15});cards.forEach(c=>o.observe(c));
 addEventListener('scroll',()=>{let on=0;cards.forEach((c,i)=>{if(c.getBoundingClientRect().top<innerHeight*.5)on=i});L.forEach((a,i)=>a.classList.toggle('on',i==on))},{passive:true})}
@@ -43,7 +43,7 @@ const home=$('home'),svc=$('svcpage'),ghost=$('ghost');
 function route(){
   const h=location.hash.slice(1),s=h==='services';
   mnav.classList.remove('open');home.hidden=s;svc.hidden=!s;document.body.classList.toggle('is-svc',s);document.querySelectorAll('.navlinks a,.mnav a').forEach(a=>a.classList.toggle('on',a.getAttribute('href')===(s?'#services':'#top')));
-  if(s)scrollTo({top:0,behavior:'instant'});else if(h&&$(h))$(h).scrollIntoView();else scrollTo(0,0);
+  if(s){scrollTo({top:0,behavior:'instant'});requestAnimationFrame(()=>scrollTo({top:0,behavior:'instant'}))}else if(h&&$(h))$(h).scrollIntoView();else scrollTo(0,0);
 }
 addEventListener('hashchange',route);route();
 addEventListener('scroll',()=>{

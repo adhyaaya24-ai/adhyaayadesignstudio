@@ -211,3 +211,11 @@ body.is-svc .sp-head{background:rgba(255,255,255,.4);backdrop-filter:blur(18px);
 .scard.rv{transform:translateX(40px)}.scard.rv.in{transform:none}.c2 .chap,.c2 .tags{color:var(--cream)}
 .tags{display:flex;flex-wrap:wrap;gap:8px;margin:16px 0}.tags span{padding:6px 14px;border-radius:100px;border:1px solid currentColor;font-size:13px;opacity:.85}
 @media(max-width:860px){.stack .wrap{grid-template-columns:1fr}.sidx{display:none}.stack .wrap>.scard{grid-column:1}.scard{padding:26px}}
+html,body{overflow-x:hidden}img,canvas{max-width:100%}
+.stack .wrap{display:block}.stack .wrap>.scard{grid-column:auto}
+.sidx{display:flex;gap:6px;overflow-x:auto;position:sticky;top:16px;z-index:5;margin:0 0 26px;padding:8px;border-radius:100px;scrollbar-width:none}.sidx h3{display:none}.sidx a{white-space:nowrap;padding:10px 18px;border-radius:100px}.sidx a.on{transform:none}
+.scard{padding:26px 30px}
+.dw-track{scrollbar-width:none;gap:14px}.dw img{height:230px}
+.work-grid{grid-template-columns:repeat(auto-fit,minmax(min(230px,100%),1fr))}
+@media(max-width:860px){.sidx{display:flex;top:72px}.dw img{height:190px}}
+@media(max-width:600px){.btn{min-height:44px}.hero-actions{flex-wrap:wrap}.hero h1{font-size:clamp(36px,13vw,60px)}.mock{min-height:240px}.stats{flex-wrap:wrap}.hint{display:none}.scard{padding:22px 20px}.scard h2{font-size:28px}.tags span{font-size:12px}}
